@@ -1,0 +1,68 @@
+﻿<Window x:Class="UniversityProgramm.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:Xamarin.Forms.Platform.WPF;assembly=Xamarin.Forms.Platform.WPF"
+        xmlns:local="clr-namespace:UniversityProgramm.Helpers"
+        xmlns:dmx="http://schemas.devexpress.com/winfx/2008/xaml/map"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        xmlns:controls="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        >
+    <Window.DataContext>
+        <local:ApplicationModel>
+
+        </local:ApplicationModel>
+    </Window.DataContext>
+    <Grid x:Name="MainGrid" DataContext="Application">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border x:Name="Results" Grid.Column="1" Grid.ColumnSpan="2">
+            <!--<controls:Map x:Name="CurrentMap">
+            </controls:Map>-->
+            <InkCanvas Background="Azure" EditingMode="None" Name="Map">
+                <Canvas x:Name="canvas"
+                        MouseWheel="CanvasMouseWheel"
+                        MouseLeftButtonDown="CanvasMouseLeftButtonDown"
+                        MouseLeftButtonUp="CanvasMouseLeftButtonUp"
+                        MouseMove="CanvasMouseMove">
+                    <!--<Image Source="Images/1.1.jpg"/>-->
+                </Canvas>
+            </InkCanvas>
+        </Border>
+
+        <Border x:Name="LeftPanel" Grid.Column="0">
+            <!--<Button 
+                Content="->" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="36" 
+                Click="Expander_Button_click" 
+                />-->
+        </Border>
+
+        <Border 
+            x:Name="LeftExpandPanel" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2" 
+            Visibility="Visible" 
+            Background="Blue" 
+            >
+            <DockPanel LastChildFill="False" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" 
+            >
+                <!--<Button DockPanel.Dock="Top" Content="(-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="36" Click="Expander_Button_click" Margin="160, 0, 0, 0"/>-->
+                <Image DockPanel.Dock="Top" Source="jojo.jpg" Margin="5,0,10,0"/>
+                <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,0,10,0" Click="ToMap"/>
+                <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,0,10,0" Click="Find"/>
+                <Button DockPanel.Dock="Top" Content="Exit" Height="28" Margin="5,0,10,0" Click="Exit"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>
