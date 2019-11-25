@@ -23,15 +23,13 @@
         </Grid.ColumnDefinitions>
 
         <Border x:Name="Results" Grid.Column="1" Grid.ColumnSpan="2">
-            <!--<controls:Map x:Name="CurrentMap">
-            </controls:Map>-->
             <InkCanvas Background="Azure" EditingMode="None" Name="Map">
                 <Canvas x:Name="canvas"
                         MouseWheel="CanvasMouseWheel"
                         MouseLeftButtonDown="CanvasMouseLeftButtonDown"
                         MouseLeftButtonUp="CanvasMouseLeftButtonUp"
                         MouseMove="CanvasMouseMove">
-                    <!--<Image Source="Images/1.1.jpg"/>-->
+                    <!--<Image Source="Images/1.1.jpg" Name="MapPicture"/>-->
                 </Canvas>
             </InkCanvas>
         </Border>

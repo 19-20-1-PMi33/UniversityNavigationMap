@@ -233,6 +233,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\ApplicationModel.cs" />
+    <Compile Include="Helpers\ModelBase.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

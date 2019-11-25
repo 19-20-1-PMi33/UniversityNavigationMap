@@ -7,6 +7,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.Collections.Generic;
+using UniversityProgramm.Helpers;
+using System.Windows.Data;
 
 namespace UniversityProgramm
 {
@@ -16,6 +18,7 @@ namespace UniversityProgramm
     public partial class MainWindow : Window
     {
         public double MaximumHeight { get => Height; }
+        public double MapHeight { get; set; } = 800;
 
         private int _delta = 120;
         private float _persantage = 0.1f;
@@ -117,6 +120,16 @@ namespace UniversityProgramm
             Canvas.SetTop(image, 0);
 
             canvas.Children.Add(image);
+
+            Binding myBinding = new Binding
+            {
+                Source = (DataContext as ApplicationModel),
+                Path = new PropertyPath("MapHeight"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            BindingOperations.SetBinding(image, Image.HeightProperty, myBinding);
         }
 
         private Image draggedImage;
@@ -190,7 +203,7 @@ namespace UniversityProgramm
                     Image image = item as Image;
                     if (image != null && image.Name == "MapPicture")
                     {
-                        (item as Image).Height += ((e.Delta / _delta) * _persantage * _normalHeight);
+                        (DataContext as ApplicationModel).MapHeight += ((e.Delta / _delta) * _persantage * _normalHeight);
                         (item as Image).Width += ((e.Delta / _delta) * _persantage * _normalWidth);
                         break;
                     }
