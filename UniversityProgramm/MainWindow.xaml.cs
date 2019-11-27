@@ -19,13 +19,14 @@ namespace UniversityProgramm
     {
         public double MaximumHeight { get => Height; }
         public double MapHeight { get; set; } = 800;
+        public ApplicationModel CurrentDataContext { get => DataContext as ApplicationModel; }
 
         private int _delta = 120;
         private float _persantage = 0.1f;
-        private float _maxPersantage = 1.5f;
+        private float _maxPersantage = 2f;
         private float _currentPersantage = 1f;
-        private double _normalHeight = 800;
-        private double _normalWidth = 1024;
+        private double _normalHeight = 960;
+        private double _normalWidth = 1280;
         private Image _map;
 
         public MainWindow()
@@ -109,19 +110,23 @@ namespace UniversityProgramm
         private void AddPicture(string path)
         {
             var bitmap = new BitmapImage(new Uri(path));
-            var image = new Image() { Source = bitmap };
+            _draggedImage = new Image() { Source = bitmap };
 
-            image.Name = "MapPicture";
+            _draggedImage.Name = "MapPicture";
 
             _normalHeight = bitmap.Height;
             _normalWidth = bitmap.Width;
 
-            Canvas.SetLeft(image, 0);
-            Canvas.SetTop(image, 0);
+            Canvas.SetLeft(_draggedImage, 0);
+            Canvas.SetTop(_draggedImage, 0);
 
-            canvas.Children.Add(image);
+            canvas.Children.Add(_draggedImage);
+            SetBindings(_draggedImage);
+        }
 
-            Binding myBinding = new Binding
+        private void SetBindings(Image image)
+        {
+            Binding heightBinding = new Binding
             {
                 Source = (DataContext as ApplicationModel),
                 Path = new PropertyPath("MapHeight"),
@@ -129,57 +134,70 @@ namespace UniversityProgramm
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             };
 
-            BindingOperations.SetBinding(image, Image.HeightProperty, myBinding);
+            Binding widthBinding = new Binding
+            {
+                Source = (DataContext as ApplicationModel),
+                Path = new PropertyPath("MapWidth"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            BindingOperations.SetBinding(image, Image.HeightProperty, heightBinding);
+            BindingOperations.SetBinding(image, Image.WidthProperty, widthBinding);
         }
 
-        private Image draggedImage;
-        private Point mousePosition;
+        private Image _draggedImage;
+        private Point _mousePosition;
+        private bool _isDragged = false;
 
         private void CanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var image = e.Source as Image;
+            var image = _draggedImage;//e.Source as Image;
 
             if (image != null && canvas.CaptureMouse())
             {
                 Mouse.OverrideCursor = Cursors.ScrollAll;
-                mousePosition = e.GetPosition(canvas);
-                draggedImage = image;
-                Panel.SetZIndex(draggedImage, 1);
+                _mousePosition = e.GetPosition(canvas);
+                _draggedImage = image;
+                Panel.SetZIndex(_draggedImage, 1);
+
+                _isDragged = true;
             }
         }
 
         private void CanvasMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (draggedImage != null)
+            if (_draggedImage != null)
             {
+                _isDragged = false;
+
                 Mouse.OverrideCursor = Cursors.Arrow;
                 canvas.ReleaseMouseCapture();
-                Panel.SetZIndex(draggedImage, 0);
-                draggedImage = null;
+                Panel.SetZIndex(_draggedImage, 0);
             }
         }
 
         private void CanvasMouseMove(object sender, MouseEventArgs e)
         {
-            if (draggedImage != null)
+            if (_draggedImage != null && _isDragged)
             {
                 var position = e.GetPosition(canvas);
-                var offset = position - mousePosition;
-                mousePosition = position;
+                var offset = position - _mousePosition;
+                _mousePosition = position;
 
-                Point relativePoint = draggedImage.TransformToAncestor(Map).Transform(new Point(0, 0));
+                Point relativePoint = _draggedImage.TransformToAncestor(Map).Transform(new Point(0, 0));
 
                 double toX = relativePoint.X + offset.X;
                 double toY = relativePoint.Y + offset.Y;
 
-                if ((offset.X > 0 && toX <= 0) || (offset.X < 0 && -toX + Map.ActualWidth <= draggedImage.ActualWidth))
+                if ((offset.X > 0 && toX <= 0) || (offset.X < 0 && -toX + Map.ActualWidth <= _draggedImage.ActualWidth))
                 {
-                    Canvas.SetLeft(draggedImage, Canvas.GetLeft(draggedImage) + offset.X);
+                    Canvas.SetLeft(_draggedImage, Canvas.GetLeft(_draggedImage) + offset.X);
                 }
 
-                if ((offset.Y > 0 && toY <= 0) || (offset.Y < 0 && -toY + Map.ActualHeight <= draggedImage.ActualHeight))
+                if ((offset.Y > 0 && toY <= 0) || (offset.Y < 0 && -toY + Map.ActualHeight <= _draggedImage.ActualHeight))
                 {
-                    Canvas.SetTop(draggedImage, Canvas.GetTop(draggedImage) + offset.Y);
+                    Canvas.SetTop(_draggedImage, Canvas.GetTop(_draggedImage) + offset.Y);
                 }
             }
         }
@@ -201,10 +219,29 @@ namespace UniversityProgramm
                 foreach (var item in canvas.Children)
                 {
                     Image image = item as Image;
-                    if (image != null && image.Name == "MapPicture")
+                    float newPersantage = ((e.Delta / _delta) * _persantage + _currentPersantage);
+                    newPersantage = (newPersantage <= _maxPersantage ? newPersantage : _maxPersantage);
+
+                    double newPersantageHeight = newPersantage * _normalHeight;
+                    double newPersantageWidth = newPersantage * _normalWidth;
+
+                    bool isNormalHeight = newPersantageHeight >= Map.ActualHeight;
+                    bool isNormalWidth = newPersantageHeight >= Map.ActualWidth;
+                    bool isNormalImage = image != null && image.Name == "MapPicture";
+
+                    if (isNormalImage && (isNormalHeight || isNormalWidth))
                     {
-                        (DataContext as ApplicationModel).MapHeight += ((e.Delta / _delta) * _persantage * _normalHeight);
-                        (item as Image).Width += ((e.Delta / _delta) * _persantage * _normalWidth);
+                        _currentPersantage = newPersantage;
+
+                        if (_normalHeight < _normalWidth)
+                        {
+                            CurrentDataContext.MapHeight = newPersantageHeight;
+                        }
+                        else
+                        {
+                            CurrentDataContext.MapWidth = newPersantageWidth;
+                        }
+
                         break;
                     }
                 }
