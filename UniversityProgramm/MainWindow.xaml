@@ -6,6 +6,7 @@
         xmlns:wpf="clr-namespace:Xamarin.Forms.Platform.WPF;assembly=Xamarin.Forms.Platform.WPF"
         xmlns:local="clr-namespace:UniversityProgramm.Helpers"
         xmlns:dmx="http://schemas.devexpress.com/winfx/2008/xaml/map"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Height="450" Width="800"
         xmlns:controls="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
@@ -49,7 +50,7 @@
             Grid.Column="0" 
             Grid.ColumnSpan="2" 
             Visibility="Visible" 
-            Background="Blue" 
+            Background="#FF494983" 
             >
             <DockPanel LastChildFill="False" 
                        HorizontalAlignment="Left" 
@@ -57,9 +58,9 @@
             >
                 <!--<Button DockPanel.Dock="Top" Content="(-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="36" Click="Expander_Button_click" Margin="160, 0, 0, 0"/>-->
                 <Image DockPanel.Dock="Top" Source="jojo.jpg" Margin="5,0,10,0"/>
-                <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,0,10,0" Click="ToMap"/>
-                <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,0,10,0" Click="Find"/>
-                <Button DockPanel.Dock="Top" Content="Exit" Height="28" Margin="5,0,10,0" Click="Exit"/>
+                <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,5,10,0" Click="ToMap"/>
+                <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,5,10,0" Click="Find"/>
+                <Button DockPanel.Dock="Top" Content="Exit" Height="30" Margin="5,5,10,0" Click="Exit"/>
             </DockPanel>
         </Border>
     </Grid>

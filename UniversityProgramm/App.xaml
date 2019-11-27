@@ -22,5 +22,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <LinearGradientBrush x:Key="GrayBlueGardientBrush"  
+                            StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="MediumSlateBlue" Offset="0"/>
+            <GradientStop Color="#CCCCFF" Offset="0.5"/>
+            <GradientStop Color="MediumSlateBlue" Offset="1"/>
+
+        </LinearGradientBrush>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15" Background="{StaticResource GrayBlueGardientBrush}" BorderThickness="1" Padding="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Button.Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="2" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>
