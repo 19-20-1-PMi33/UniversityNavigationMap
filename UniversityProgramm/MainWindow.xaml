@@ -15,6 +15,7 @@
 
         </local:ApplicationModel>
     </Window.DataContext>
+    
     <Grid x:Name="MainGrid" DataContext="Application">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -23,9 +24,13 @@
         </Grid.ColumnDefinitions>
 
         <Border x:Name="Results" Grid.Column="1" Grid.ColumnSpan="2">
-            <InkCanvas Background="Azure" EditingMode="None" Name="Map">
+            <InkCanvas 
+                Background="Azure" 
+                EditingMode="None" 
+                Name="Map"
+                MouseWheel="CanvasMouseWheel"
+                >
                 <Canvas x:Name="canvas"
-                        MouseWheel="CanvasMouseWheel"
                         MouseLeftButtonDown="CanvasMouseLeftButtonDown"
                         MouseLeftButtonUp="CanvasMouseLeftButtonUp"
                         MouseMove="CanvasMouseMove">
