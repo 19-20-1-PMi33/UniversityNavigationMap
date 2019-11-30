@@ -32,6 +32,11 @@
                         MouseMove="CanvasMouseMove">
                     <!--<Image Source="Images/1.1.jpg" Name="MapPicture"/>-->
                 </Canvas>
+
+                <!--<Button FontFamily="Marlett" FontSize="20" Content="5" Margin="560,10,-549.8,0.2" />
+                <Button FontFamily="Marlett" FontSize="20" Content="6" Margin="560,38,-549.8,2.6"/>-->
+                <Button Style="{DynamicResource TriangleButtonStyle}" RenderTransform="{StaticResource Rotate090}" Margin="540,3,-539.6,-3.4" Background="{StaticResource GrayBlueGardientBrush}"/>
+                <Button Style="{DynamicResource TriangleButtonStyle}" RenderTransform="{StaticResource Rotate270}" Margin="564,24,-563.6,-24.4" Background="{StaticResource GrayBlueGardientBrush}"/>
             </InkCanvas>
         </Border>
 
