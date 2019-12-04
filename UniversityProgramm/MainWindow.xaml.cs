@@ -206,6 +206,7 @@ namespace UniversityProgramm
         {
             From.Visibility = Visibility.Visible;
             To.Visibility = Visibility.Visible;
+            Search.Visibility = Visibility.Visible;
         }
 
         private void ToMap(object sender, RoutedEventArgs e)
@@ -249,5 +250,11 @@ namespace UniversityProgramm
             }
         }
 
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            From.Visibility = Visibility.Hidden;
+            To.Visibility = Visibility.Hidden;
+            Search.Visibility = Visibility.Hidden;
+        }
     }
 }
