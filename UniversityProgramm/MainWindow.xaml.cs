@@ -204,7 +204,7 @@ namespace UniversityProgramm
 
         private void Find(object sender, RoutedEventArgs e)
         {
-
+            From.Visibility = Visibility.Visible;
         }
 
         private void ToMap(object sender, RoutedEventArgs e)
@@ -247,5 +247,6 @@ namespace UniversityProgramm
                 }
             }
         }
+
     }
 }
