@@ -66,6 +66,7 @@
                 <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,5,10,0" Click="ToMap"/>
                 <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,5,10,0" Click="Find"/>
                 <ComboBox DockPanel.Dock="Top" Text="From" Name="From" Height="30" Margin="5,5,10,0" Visibility="Hidden"/>
+                <ComboBox DockPanel.Dock="Top" Text="To" Name="To" Height="30" Margin="5,5,10,0" Visibility="Hidden"/>
                 <Button DockPanel.Dock="Top" Content="Exit" Height="30" Margin="5,20,10,0" Click="Exit"/>
             </DockPanel>
         </Border>
