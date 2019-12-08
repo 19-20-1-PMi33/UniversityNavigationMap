@@ -65,7 +65,10 @@
                 <Image DockPanel.Dock="Top" Source="jojo.jpg" Margin="5,0,10,0"/>
                 <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,5,10,0" Click="ToMap"/>
                 <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,5,10,0" Click="Find"/>
-                <Button DockPanel.Dock="Top" Content="Exit" Height="30" Margin="5,5,10,0" Click="Exit"/>
+                <ComboBox DockPanel.Dock="Top" Text="From" Name="From" Height="30" Margin="5,5,10,0" Visibility="Hidden"/>
+                <ComboBox DockPanel.Dock="Top" Text="To" Name="To" Height="30" Margin="5,5,10,0" Visibility="Hidden"/>
+                <Button DockPanel.Dock="Top" Name="Search" Content="Search" Height="30" Margin="5,5,10,0" Visibility="Hidden" Click ="Search_Click"/>
+                <Button DockPanel.Dock="Top" Content="Exit" Height="30" Margin="5,20,10,0" Click="Exit"/>
             </DockPanel>
         </Border>
     </Grid>
