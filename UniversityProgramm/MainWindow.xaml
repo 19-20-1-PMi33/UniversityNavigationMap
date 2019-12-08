@@ -9,6 +9,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Height="450" Width="800"
+        MinWidth="360" MinHeight="370"
         xmlns:controls="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -63,14 +64,17 @@
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
             >
-                <!--<Button DockPanel.Dock="Top" Content="(-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="36" Click="Expander_Button_click" Margin="160, 0, 0, 0"/>-->
-                <Image DockPanel.Dock="Top" Source="jojo.jpg" Margin="5,0,10,0"/>
-                <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,5,10,0" Click="ToMap"/>
-                <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,5,10,0" Click="Find"/>
-                <ComboBox DockPanel.Dock="Top" Text="From" Name="From" Height="30" Margin="5,5,10,0" Visibility="Collapsed"/>
-                <ComboBox DockPanel.Dock="Top" Text="To" Name="To" Height="30" Margin="5,5,10,0" Visibility="Collapsed"/>
-                <Button DockPanel.Dock="Top" Name="Search" Content="Search" Height="30" Margin="5,5,10,0" Visibility="Collapsed" Click ="Search_Click"/>
-                <Button DockPanel.Dock="Top" Content="Exit" Height="30" Margin="5,5,10,0" Click="Exit"/>
+                <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <StackPanel>
+                        <Image DockPanel.Dock="Top" Source="jojo.jpg" Margin="5,0,10,0"/>
+                        <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,5,10,0" Click="ToMap"/>
+                        <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,5,10,0" Click="Find"/>
+                        <ComboBox DockPanel.Dock="Top" Text="From" Name="From" Height="30" Margin="5,5,10,0" Visibility="Collapsed"/>
+                        <ComboBox DockPanel.Dock="Top" Text="To" Name="To" Height="30" Margin="5,5,10,0" Visibility="Collapsed"/>
+                        <Button DockPanel.Dock="Top" Name="Search" Content="Search" Height="30" Margin="5,5,10,0" Visibility="Collapsed" Click ="Search_Click"/>
+                        <Button DockPanel.Dock="Top" Content="Exit" Height="30" Margin="5,5,10,0" Click="Exit"/>
+                    </StackPanel>
+                </ScrollViewer>
             </DockPanel>
         </Border>
     </Grid>
