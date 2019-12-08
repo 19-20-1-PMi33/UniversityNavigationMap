@@ -7,8 +7,7 @@
 
         public Pair()
         {
-            First = default;
-            Second = default;
+
         }
 
         public Pair(T first, V second)
