@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace UniversityProgramm.Helpers
 {
     public class ApplicationModel : ViewModelBase
     {
-        private double _mapHeight = 960;
+        private double _mapHeight = 0;
         public double MapHeight
         {
             get => _mapHeight;
             set => SetProperty(ref _mapHeight, value);
         }
 
-        private double _mapWidth = 1280;
+        private double _mapWidth = 0;
         public double MapWidth
         {
             get => _mapWidth;

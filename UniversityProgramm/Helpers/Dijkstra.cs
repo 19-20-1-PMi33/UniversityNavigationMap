@@ -4,12 +4,12 @@ using System.Collections.Generic;
 public class DijkstrasAlgorithm
 {
     private  readonly int NO_PARENT = -1;
-    public  List<int> Dijkstra(int[,] adjacencyMatrix,
+    public  List<int> Dijkstra(double[,] adjacencyMatrix,
                                         int startVertex, int endVertex)
     {
         int nVertices = adjacencyMatrix.GetLength(0);
 
-        int[] shortestDistances = new int[nVertices];
+        double[] shortestDistances = new double[nVertices];
 
         bool[] added = new bool[nVertices];
         for (int vertexIndex = 0; vertexIndex < nVertices;
@@ -24,7 +24,7 @@ public class DijkstrasAlgorithm
         for (int i = 1; i < nVertices; i++)
         {
             int nearestVertex = -1;
-            int shortestDistance = int.MaxValue;
+            double shortestDistance = double.MaxValue;
             for (int vertexIndex = 0;
                     vertexIndex < nVertices;
                     vertexIndex++)
@@ -44,7 +44,7 @@ public class DijkstrasAlgorithm
                     vertexIndex < nVertices;
                     vertexIndex++)
             {
-                int edgeDistance = adjacencyMatrix[nearestVertex, vertexIndex];
+                double edgeDistance = adjacencyMatrix[nearestVertex, vertexIndex];
 
                 if (edgeDistance > 0
                     && ((shortestDistance + edgeDistance) <
@@ -57,13 +57,10 @@ public class DijkstrasAlgorithm
             }
         }
 
-        return PrintSolution(startVertex, shortestDistances, parents, endVertex);
+        return PrintSolution(parents, endVertex);
     }
 
-    private  List<int> PrintSolution(int startVertex,
-                                    int[] distances,
-                                    int[] parents,
-                                    int endVertex)
+    private  List<int> PrintSolution(int[] parents, int endVertex)
     {
         List<int> lst = new List<int>();
         lst = PrintPath(endVertex, parents, lst);

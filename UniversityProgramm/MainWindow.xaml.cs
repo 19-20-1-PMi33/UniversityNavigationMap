@@ -18,8 +18,19 @@ namespace UniversityProgramm
     public partial class MainWindow : Window
     {
         public double MaximumHeight { get => Height; }
-        public double MapHeight { get; set; } = 800;
+        public double MaximumWidth { get => Width; }
         public ApplicationModel CurrentDataContext { get => DataContext as ApplicationModel; }
+        public double MapHeight 
+        { 
+            get => CurrentDataContext.MapHeight; 
+            set => CurrentDataContext.MapHeight = value; 
+        }
+        public double MapWidth 
+        { 
+            get => CurrentDataContext.MapWidth; 
+            set => CurrentDataContext.MapWidth = value; 
+        }
+
 
         private int _delta = 120;
         private float _persantage = 0.1f;
@@ -29,11 +40,14 @@ namespace UniversityProgramm
         private double _normalWidth = 1280;
         private Image _map;
 
+
         public MainWindow()
         {
             InitializeComponent();
 
-            var picturePath = "pack://application:,,,/Images/1.1.jpg";
+            var picturePath = "pack://application:,,,/Images/MainCorps/1.1.png";
+
+            GraphBuilder.BuildFromFile(new Uri("pack://application:,,,/Images/MainCorps/Path/1.1.path.png"));
 
             AddPicture(picturePath);
         }
@@ -110,6 +124,10 @@ namespace UniversityProgramm
         private void AddPicture(string path)
         {
             var bitmap = new BitmapImage(new Uri(path));
+
+            MapHeight = bitmap.PixelHeight;
+            MapWidth = bitmap.PixelWidth;
+
             _draggedImage = new Image() { Source = bitmap };
 
             _draggedImage.Name = "MapPicture";
