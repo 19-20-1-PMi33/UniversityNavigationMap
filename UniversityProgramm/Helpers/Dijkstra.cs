@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Dijkstras Algorithm
+/// </summary>
 public class DijkstrasAlgorithm
 {
     private  readonly int NO_PARENT = -1;

@@ -5,11 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace UniversityProgramm.Helpers
+namespace UniversityProgramm.ViewModels
 {
-    public class ApplicationModel : ViewModelBase
+    /// <summary>
+    /// Main window model with binding properties
+    /// </summary>
+    public class MainWindowModel : ViewModelBase
     {
         private double _mapHeight = 0;
         public double MapHeight
@@ -25,7 +29,7 @@ namespace UniversityProgramm.Helpers
             set => SetProperty(ref _mapWidth, value);
         }
 
-        public ApplicationModel()
+        public MainWindowModel()
         {
 
         }

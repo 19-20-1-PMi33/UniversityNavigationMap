@@ -228,6 +228,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\ApplicationModel.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,11 +237,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\ApplicationModel.cs" />
+    <Compile Include="ViewModels\MainWindowModel.cs" />
     <Compile Include="Helpers\Dijkstra.cs" />
     <Compile Include="Helpers\Graph.cs" />
     <Compile Include="Helpers\GraphBuilder.cs" />
-    <Compile Include="Helpers\ModelBase.cs" />
+    <Compile Include="ViewModels\ModelBase.cs" />
     <Compile Include="Helpers\Pair.cs" />
     <Compile Include="Helpers\Vertex.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -275,9 +276,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="jojo.jpg" />
   </ItemGroup>

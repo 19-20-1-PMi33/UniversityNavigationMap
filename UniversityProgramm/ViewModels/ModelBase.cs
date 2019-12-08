@@ -6,8 +6,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversityProgramm.Helpers
+namespace UniversityProgramm.ViewModels
 {
+    /// <summary>
+    /// Abstract class for Binding properties
+    /// </summary>
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

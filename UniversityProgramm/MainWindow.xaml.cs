@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections.Generic;
 using UniversityProgramm.Helpers;
 using System.Windows.Data;
+using UniversityProgramm.ViewModels;
 
 namespace UniversityProgramm
 {
@@ -19,7 +20,7 @@ namespace UniversityProgramm
     {
         public double MaximumHeight { get => Height; }
         public double MaximumWidth { get => Width; }
-        public ApplicationModel CurrentDataContext { get => DataContext as ApplicationModel; }
+        public MainWindowModel CurrentDataContext { get => DataContext as MainWindowModel; }
         public double MapHeight 
         { 
             get => CurrentDataContext.MapHeight; 
@@ -40,7 +41,9 @@ namespace UniversityProgramm
         private double _normalWidth = 1280;
         private Image _map;
 
-
+        /// <summary>
+        /// Set First floor as map
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -52,25 +55,21 @@ namespace UniversityProgramm
             AddPicture(picturePath);
         }
 
-        //private void Expander_Button_click(object sender, RoutedEventArgs e)
-        //{
-        //    if (LeftExpandPanel.Visibility == Visibility.Collapsed)
-        //    {
-        //        LeftExpandPanel.Visibility = Visibility.Visible;
-        //        ((Button)sender).Content = "-->";
-        //    }
-        //    else
-        //    {
-        //        LeftExpandPanel.Visibility = Visibility.Collapsed;
-        //        ((Button)sender).Content = "<--";
-        //    }
-        //}
-
+        /// <summary>
+        /// Exit from application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Exit(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// Draw Line from firstPoint to secondPoint
+        /// </summary>
+        /// <param name="firstPoint"></param>
+        /// <param name="secondPoint"></param>
         public void DrawLine(Point firstPoint, Point secondPoint)
         {
             Line line = new Line
@@ -86,6 +85,10 @@ namespace UniversityProgramm
             Map.Children.Add(line);
         }
 
+        /// <summary>
+        /// Delete all lines
+        /// </summary>
+        /// <returns></returns>
         public bool ClearAllLines()
         {
             bool isCLeared = false;
@@ -108,19 +111,10 @@ namespace UniversityProgramm
             return isCLeared;
         }
 
-        private void AddButtonClick(object sender, RoutedEventArgs e)
-        {
-            var dialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "Image Files (*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp"
-            };
-
-            if ((bool)dialog.ShowDialog())
-            {
-                AddPicture(dialog.FileName);
-            }
-        }
-
+        /// <summary>
+        /// Set picture as map
+        /// </summary>
+        /// <param name="path"></param>
         private void AddPicture(string path)
         {
             var bitmap = new BitmapImage(new Uri(path));
@@ -142,11 +136,15 @@ namespace UniversityProgramm
             SetBindings(_draggedImage);
         }
 
+        /// <summary>
+        /// Bind Height and width for image
+        /// </summary>
+        /// <param name="image"></param>
         private void SetBindings(Image image)
         {
             Binding heightBinding = new Binding
             {
-                Source = (DataContext as ApplicationModel),
+                Source = (DataContext as MainWindowModel),
                 Path = new PropertyPath("MapHeight"),
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -154,7 +152,7 @@ namespace UniversityProgramm
 
             Binding widthBinding = new Binding
             {
-                Source = (DataContext as ApplicationModel),
+                Source = (DataContext as MainWindowModel),
                 Path = new PropertyPath("MapWidth"),
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -168,6 +166,11 @@ namespace UniversityProgramm
         private Point _mousePosition;
         private bool _isDragged = false;
 
+        /// <summary>
+        /// Let map move if mouse button down
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var image = _draggedImage;//e.Source as Image;
@@ -183,6 +186,11 @@ namespace UniversityProgramm
             }
         }
 
+        /// <summary>
+        /// Do not move map if mouse button up
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_draggedImage != null)
@@ -195,6 +203,11 @@ namespace UniversityProgramm
             }
         }
 
+        /// <summary>
+        /// Move map with mouse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasMouseMove(object sender, MouseEventArgs e)
         {
             if (_draggedImage != null && _isDragged)
@@ -220,11 +233,19 @@ namespace UniversityProgramm
             }
         }
 
+        /// <summary>
+        /// Open Find UI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Find(object sender, RoutedEventArgs e)
         {
             SwapVisibilities();
         }
 
+        /// <summary>
+        /// Change visibilty in Find UI
+        /// </summary>
         private void SwapVisibilities()
         {
             if (From.Visibility == Visibility.Collapsed)
@@ -246,6 +267,11 @@ namespace UniversityProgramm
             ClearAllLines();
         }
 
+        /// <summary>
+        /// Resize map with mouse Wheel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (_map == null)
@@ -282,9 +308,13 @@ namespace UniversityProgramm
             }
         }
 
+        /// <summary>
+        /// Build Path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            SwapVisibilities();
 
         }
     }

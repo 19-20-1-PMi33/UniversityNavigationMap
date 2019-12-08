@@ -11,6 +11,9 @@ using Image = System.Drawing.Image;
 
 namespace UniversityProgramm.Helpers
 {
+    /// <summary>
+    /// Graph builder
+    /// </summary>
     public class GraphBuilder
     {
         public static Color PathColor { get; private set; } = Color.FromArgb(255, 98, 178, 246);

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UniversityProgramm.Helpers
 {
+    /// <summary>
+    /// Definition of Vertex
+    /// </summary>
     public class Vertex
     {
         public string Name { get; set; }

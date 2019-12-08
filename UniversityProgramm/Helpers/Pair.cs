@@ -1,5 +1,10 @@
 ﻿namespace UniversityProgramm.Helpers
 {
+    /// <summary>
+    /// Just class for represent pair
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V"></typeparam>
     public class Pair<T,V>
     {
         public T First { get; set; }

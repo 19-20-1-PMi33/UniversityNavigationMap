@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace UniversityProgramm.Helpers
 {
+    /// <summary>
+    /// Graph define
+    /// </summary>
     public class Graph
     {
         public string Name { get; set; }
