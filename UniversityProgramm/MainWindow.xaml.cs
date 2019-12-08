@@ -222,9 +222,18 @@ namespace UniversityProgramm
 
         private void Find(object sender, RoutedEventArgs e)
         {
-            From.Visibility = Visibility.Visible;
-            To.Visibility = Visibility.Visible;
-            Search.Visibility = Visibility.Visible;
+            if (From.Visibility == Visibility.Collapsed)
+            {
+                From.Visibility = Visibility.Visible;
+                To.Visibility = Visibility.Visible;
+                Search.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                From.Visibility = Visibility.Collapsed;
+                To.Visibility = Visibility.Collapsed;
+                Search.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ToMap(object sender, RoutedEventArgs e)
