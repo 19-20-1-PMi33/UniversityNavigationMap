@@ -222,6 +222,11 @@ namespace UniversityProgramm
 
         private void Find(object sender, RoutedEventArgs e)
         {
+            SwapVisibilities();
+        }
+
+        private void SwapVisibilities()
+        {
             if (From.Visibility == Visibility.Collapsed)
             {
                 From.Visibility = Visibility.Visible;
@@ -279,9 +284,8 @@ namespace UniversityProgramm
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            From.Visibility = Visibility.Hidden;
-            To.Visibility = Visibility.Hidden;
-            Search.Visibility = Visibility.Hidden;
+            SwapVisibilities();
+
         }
     }
 }
