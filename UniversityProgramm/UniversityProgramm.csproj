@@ -276,7 +276,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resourses\Path.1.1.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="jojo.jpg" />
   </ItemGroup>
@@ -294,7 +296,14 @@
     <Resource Include="Images\MainCorps\Path\1.1.path.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\MainCorps\1.2.png" />
+    <Resource Include="Images\MainCorps\1.2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\Path1.2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

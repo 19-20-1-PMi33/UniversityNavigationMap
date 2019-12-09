@@ -20,7 +20,7 @@ namespace UniversityProgramm.Helpers
             Vertices = new List<Vertex>();
         }
 
-        public Graph(string name)
+        public Graph(string name): this()
         {
             Name = name;
         }

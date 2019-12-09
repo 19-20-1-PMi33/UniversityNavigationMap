@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace UniversityProgramm.Helpers
 {
     /// <summary>
     /// Definition of Vertex
     /// </summary>
-    public class Vertex
+    public class Vertex : IEqualityComparer<Vertex>
     {
         public string Name { get; set; }
+
+        public Point Position { get; set; }
 
         /// <summary>
         /// First is vertex, second is lenght to current vertex
@@ -21,7 +24,7 @@ namespace UniversityProgramm.Helpers
 
         static Vertex()
         {
-            LastName = "1";
+            LastName = "0";
         }
         public Vertex()
         {
@@ -85,6 +88,21 @@ namespace UniversityProgramm.Helpers
             LastName = currentName.ToString();
 
             return LastName;
+        }
+
+        public bool Equals(Vertex x, Vertex y)
+        {
+            if (x.Name == y.Name)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public int GetHashCode(Vertex obj)
+        {
+            return this.GetHashCode();
         }
     }
 }

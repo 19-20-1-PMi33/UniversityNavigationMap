@@ -48,9 +48,17 @@ namespace UniversityProgramm
         {
             InitializeComponent();
 
-            var picturePath = "pack://application:,,,/Images/MainCorps/1.1.png";
+            var picturePath = "pack://application:,,,/Images/MainCorps/1.2.png";
 
-            GraphBuilder.BuildFromFile(new Uri("pack://application:,,,/Images/MainCorps/Path/1.1.path.png"));
+            Graph graph = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
+
+            foreach (var item in graph.Vertices)
+            {
+                foreach (var item2 in item.Neibours)
+                {
+                    DrawLine(item.Position, item2.First.Position);
+                }
+            }
 
             AddPicture(picturePath);
         }
@@ -82,7 +90,7 @@ namespace UniversityProgramm
                 StrokeThickness = 2
             };
 
-            Map.Children.Add(line);
+            Path.Children.Add(line);
         }
 
         /// <summary>
@@ -91,11 +99,9 @@ namespace UniversityProgramm
         /// <returns></returns>
         public bool ClearAllLines()
         {
-            bool isCLeared = false;
-
             List<Line> lines = new List<Line>();
 
-            foreach (var item in Map.Children)
+            foreach (var item in Path.Children)
             {
                 if(item is Line)
                 {
@@ -105,10 +111,10 @@ namespace UniversityProgramm
 
             foreach (var item in lines)
             {
-                Map.Children.Remove(item);
+                Path.Children.Remove(item);
             }
 
-            return isCLeared;
+            return true;
         }
 
         /// <summary>
@@ -224,11 +230,13 @@ namespace UniversityProgramm
                 if ((offset.X > 0 && toX <= 0) || (offset.X < 0 && -toX + Map.ActualWidth <= _draggedImage.ActualWidth))
                 {
                     Canvas.SetLeft(_draggedImage, Canvas.GetLeft(_draggedImage) + offset.X);
+                    Canvas.SetLeft(Path, Canvas.GetLeft(Path) + offset.X);
                 }
 
                 if ((offset.Y > 0 && toY <= 0) || (offset.Y < 0 && -toY + Map.ActualHeight <= _draggedImage.ActualHeight))
                 {
                     Canvas.SetTop(_draggedImage, Canvas.GetTop(_draggedImage) + offset.Y);
+                    Canvas.SetLeft(Path, Canvas.GetLeft(Path) + offset.Y);
                 }
             }
         }

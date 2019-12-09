@@ -1,4 +1,6 @@
-﻿namespace UniversityProgramm.Helpers
+﻿using System.Drawing;
+
+namespace UniversityProgramm.Helpers
 {
     /// <summary>
     /// Just class for represent pair
