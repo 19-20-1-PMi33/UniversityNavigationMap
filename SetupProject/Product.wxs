@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define UniversityProgramm_TargetDir=$(var.UniversityProgramm.TargetDir)?>
 	<Product Id="*" Name="SetupProject" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="aff05544-92a9-4949-8681-1e55d60f130a">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -8,6 +8,7 @@
 
 		<Feature Id="ProductFeature" Title="SetupProject" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="ProgramFilesFolder_files" />
 		</Feature>
 	</Product>
 
@@ -26,5 +27,36 @@
 				<!-- TODO: Insert files, registry keys, and other resources here. -->
 			<!-- </Component> -->
 		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+	  <ComponentGroup Id="ProgramFilesFolder_files" Directory="ProgramFilesFolder">
+	    <Component Id="UniversityProgramm.exe" Guid="33dc8d38-5994-414f-9c73-d11df6945aed">
+	      <File Id="UniversityProgramm.exe" Name="UniversityProgramm.exe" Source="$(var.UniversityProgramm_TargetDir)UniversityProgramm.exe" />
+	    </Component>
+	    <Component Id="UniversityProgramm.exe.config" Guid="d49a81b2-08fc-485f-a68b-e7724479d00b">
+	      <File Id="UniversityProgramm.exe.config" Name="UniversityProgramm.exe.config" Source="$(var.UniversityProgramm_TargetDir)UniversityProgramm.exe.config" />
+	    </Component>
+	    <Component Id="Xamarin.Forms.Platform.WPF.dll" Guid="d72d1300-b500-4013-b6e9-1f5d0d51e3fb">
+	      <File Id="Xamarin.Forms.Platform.WPF.dll" Name="Xamarin.Forms.Platform.WPF.dll" Source="$(var.UniversityProgramm_TargetDir)Xamarin.Forms.Platform.WPF.dll" />
+	    </Component>
+	    <Component Id="Xamarin.Forms.Core.dll" Guid="b81c1a70-12e9-493e-8cbf-c9df1b58bda4">
+	      <File Id="Xamarin.Forms.Core.dll" Name="Xamarin.Forms.Core.dll" Source="$(var.UniversityProgramm_TargetDir)Xamarin.Forms.Core.dll" />
+	    </Component>
+	    <Component Id="Microsoft.Maps.MapControl.WPF.dll" Guid="4561c85d-5c70-4b72-b3df-299f00417bcb">
+	      <File Id="Microsoft.Maps.MapControl.WPF.dll" Name="Microsoft.Maps.MapControl.WPF.dll" Source="$(var.UniversityProgramm_TargetDir)Microsoft.Maps.MapControl.WPF.dll" />
+	    </Component>
+	    <Component Id="Xamarin.Forms.Platform.dll" Guid="29177bab-daf0-461f-9b1e-a4e2620c1703">
+	      <File Id="Xamarin.Forms.Platform.dll" Name="Xamarin.Forms.Platform.dll" Source="$(var.UniversityProgramm_TargetDir)Xamarin.Forms.Platform.dll" />
+	    </Component>
+	    <Component Id="OpenTK.GLControl.dll" Guid="c9e94d36-7e62-434d-8d43-3f7b2a73ea43">
+	      <File Id="OpenTK.GLControl.dll" Name="OpenTK.GLControl.dll" Source="$(var.UniversityProgramm_TargetDir)OpenTK.GLControl.dll" />
+	    </Component>
+	    <Component Id="OpenTK.dll" Guid="9bdb58ab-0695-47ec-ae6b-0b34edc92820">
+	      <File Id="OpenTK.dll" Name="OpenTK.dll" Source="$(var.UniversityProgramm_TargetDir)OpenTK.dll" />
+	    </Component>
+	    <Component Id="UniversityProgramm.pdb" Guid="0d2468d9-c064-4481-af03-1bdf5aa46e4d">
+	      <File Id="UniversityProgramm.pdb" Name="UniversityProgramm.pdb" Source="$(var.UniversityProgramm_TargetDir)UniversityProgramm.pdb" />
+	    </Component>
+	  </ComponentGroup>
 	</Fragment>
 </Wix>
