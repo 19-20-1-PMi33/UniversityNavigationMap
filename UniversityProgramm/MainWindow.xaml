@@ -40,9 +40,9 @@
                         MouseMove="CanvasMouseMove">
                     <!--<Image Source="Images/1.1.jpg" Name="MapPicture"/>-->
                 </Canvas>
-                <Grid x:Name="Path">
+                <Canvas x:Name="Path">
                     
-                </Grid>
+                </Canvas>
             </InkCanvas>
         </Border>
 

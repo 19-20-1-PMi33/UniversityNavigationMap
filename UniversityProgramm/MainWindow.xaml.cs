@@ -40,6 +40,7 @@ namespace UniversityProgramm
         private double _normalHeight = 960;
         private double _normalWidth = 1280;
         private Image _map;
+        private List<Line> _lines;
 
         /// <summary>
         /// Set First floor as map
@@ -47,11 +48,14 @@ namespace UniversityProgramm
         public MainWindow()
         {
             InitializeComponent();
+            _lines = new List<Line>();
 
             var picturePath = "pack://application:,,,/Images/MainCorps/1.2.png";
 
             Graph graph = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
 
+
+            AddPicture(picturePath);
             foreach (var item in graph.Vertices)
             {
                 foreach (var item2 in item.Neibours)
@@ -59,8 +63,6 @@ namespace UniversityProgramm
                     DrawLine(item.Position, item2.First.Position);
                 }
             }
-
-            AddPicture(picturePath);
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace UniversityProgramm
                 Stroke = Brushes.Blue,
                 StrokeThickness = 2
             };
-
+            _lines.Add(line);
             Path.Children.Add(line);
         }
 
@@ -113,7 +115,7 @@ namespace UniversityProgramm
             {
                 Path.Children.Remove(item);
             }
-
+            _lines.Clear();
             return true;
         }
 
@@ -186,7 +188,7 @@ namespace UniversityProgramm
                 Mouse.OverrideCursor = Cursors.ScrollAll;
                 _mousePosition = e.GetPosition(canvas);
                 _draggedImage = image;
-                Panel.SetZIndex(_draggedImage, 1);
+                //Panel.SetZIndex(_draggedImage, 1);
 
                 _isDragged = true;
             }
@@ -205,7 +207,7 @@ namespace UniversityProgramm
 
                 Mouse.OverrideCursor = Cursors.Arrow;
                 canvas.ReleaseMouseCapture();
-                Panel.SetZIndex(_draggedImage, 0);
+                //Panel.SetZIndex(_draggedImage, 0);
             }
         }
 
@@ -230,13 +232,21 @@ namespace UniversityProgramm
                 if ((offset.X > 0 && toX <= 0) || (offset.X < 0 && -toX + Map.ActualWidth <= _draggedImage.ActualWidth))
                 {
                     Canvas.SetLeft(_draggedImage, Canvas.GetLeft(_draggedImage) + offset.X);
-                    Canvas.SetLeft(Path, Canvas.GetLeft(Path) + offset.X);
+                    foreach (Line item in Path.Children)
+                    {
+                        item.X1 += offset.X;
+                        item.X2 += offset.X;
+                    }
                 }
 
                 if ((offset.Y > 0 && toY <= 0) || (offset.Y < 0 && -toY + Map.ActualHeight <= _draggedImage.ActualHeight))
                 {
                     Canvas.SetTop(_draggedImage, Canvas.GetTop(_draggedImage) + offset.Y);
-                    Canvas.SetLeft(Path, Canvas.GetLeft(Path) + offset.Y);
+                    foreach (Line item in Path.Children)
+                    {
+                        item.Y1 += offset.Y;
+                        item.Y2 += offset.Y;
+                    }
                 }
             }
         }
