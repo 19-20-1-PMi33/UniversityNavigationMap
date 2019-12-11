@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UniversityProgramm.Helpers;
 using System.Windows.Data;
 using UniversityProgramm.ViewModels;
+using System.Linq;
 
 namespace UniversityProgramm
 {
@@ -32,7 +33,6 @@ namespace UniversityProgramm
             set => CurrentDataContext.MapWidth = value; 
         }
 
-
         private int _delta = 120;
         private float _persantage = 0.1f;
         private float _maxPersantage = 2f;
@@ -52,16 +52,26 @@ namespace UniversityProgramm
 
             var picturePath = "pack://application:,,,/Images/MainCorps/1.2.png";
 
-            Graph graph = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
-
+            Graph graph2 = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
 
             AddPicture(picturePath);
-            foreach (var item in graph.Vertices)
+
+            foreach (var item in graph2.Vertices)
             {
                 foreach (var item2 in item.Neibours)
                 {
                     DrawLine(item.Position, item2.First.Position);
                 }
+            }
+
+            var names = from i in graph2.Vertices
+                        where i.Name[0] != 'A' && i.Name[0] != 'S'
+                        select i.Name;
+
+            foreach (var item in names)
+            {
+                From.Items.Add(item);
+                To.Items.Add(item);
             }
         }
 
@@ -232,20 +242,24 @@ namespace UniversityProgramm
                 if ((offset.X > 0 && toX <= 0) || (offset.X < 0 && -toX + Map.ActualWidth <= _draggedImage.ActualWidth))
                 {
                     Canvas.SetLeft(_draggedImage, Canvas.GetLeft(_draggedImage) + offset.X);
+                    int i = 0;
                     foreach (Line item in Path.Children)
                     {
                         item.X1 += offset.X;
                         item.X2 += offset.X;
+                        _lines[i] = item;
                     }
                 }
 
                 if ((offset.Y > 0 && toY <= 0) || (offset.Y < 0 && -toY + Map.ActualHeight <= _draggedImage.ActualHeight))
                 {
                     Canvas.SetTop(_draggedImage, Canvas.GetTop(_draggedImage) + offset.Y);
+                    int i = 0;
                     foreach (Line item in Path.Children)
                     {
                         item.Y1 += offset.Y;
                         item.Y2 += offset.Y;
+                        _lines[i] = item;
                     }
                 }
             }
@@ -322,6 +336,16 @@ namespace UniversityProgramm
 
                         break;
                     }
+                }
+                for(int i = 0; i < Path.Children.Count; i++)
+                {
+                    float newPersantage = ((e.Delta / _delta) * _persantage + _currentPersantage);
+                    newPersantage = (newPersantage <= _maxPersantage ? newPersantage : _maxPersantage);
+
+                    (Path.Children[i] as Line).X1 = _lines[i].X1 * newPersantage;
+                    (Path.Children[i] as Line).X2 = _lines[i].X2 * newPersantage;
+                    (Path.Children[i] as Line).Y1 = _lines[i].Y1 * newPersantage;
+                    (Path.Children[i] as Line).Y2 = _lines[i].Y2 * newPersantage;
                 }
             }
         }
