@@ -62,25 +62,24 @@ namespace UniversityProgramm
         public MainWindow()
         {
             InitializeComponent();
-            _lines = new List<Line>();
 
-            _currentLevel = 2;
-
-            string picturePath = _picturePath.Replace('~', CurrentLevel.ToString()[0]);
             Graph graph = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
-
-            AddPicture(picturePath);
 
             var names = from i in graph.Vertices
                         where i.Name[0] != 'A' && i.Name[0] != 'S'
                         select i.Name;
-            _graph = graph;
             foreach (var item in names)
             {
                 From.Items.Add(item);
                 To.Items.Add(item);
             }
+
+            _lines = new List<Line>();
+            _graph = graph;
             _totalOffset = new Point(0, 0);
+            _currentLevel = 2;
+            string picturePath = _picturePath.Replace('~', CurrentLevel.ToString()[0]);
+            AddPicture(picturePath);
         }
 
         /// <summary>
@@ -323,6 +322,7 @@ namespace UniversityProgramm
         private void Find(object sender, RoutedEventArgs e)
         {
             SwapVisibilities();
+            ClearAllLines();
         }
 
         /// <summary>

@@ -70,7 +70,6 @@
                 <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
                         <Image DockPanel.Dock="Top" Source="jojo.jpg" Margin="5,0,10,0"/>
-                        <Button DockPanel.Dock="Top" Content="To map" Height="30" Margin="5,5,10,0" Click="ToMap"/>
                         <Button DockPanel.Dock="Top" Content="Find" Height="30" Margin="5,5,10,0" Click="Find"/>
                         <ComboBox Style="{DynamicResource RoundComboBox}" DockPanel.Dock="Top" Text="From" Name="From" Height="30" Margin="5,5,10,0" Visibility="Collapsed" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                         <ComboBox Style="{DynamicResource RoundComboBox}" DockPanel.Dock="Top" Text="To" Name="To" Height="30" Margin="5,5,10,0" Visibility="Collapsed" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
