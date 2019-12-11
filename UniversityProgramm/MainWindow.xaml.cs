@@ -41,6 +41,9 @@ namespace UniversityProgramm
         private double _normalWidth = 1280;
         private Image _map;
         private List<Line> _lines;
+        private int _currentLevel;
+        private Graph _graph;
+        private Point _totalOffset;
 
         /// <summary>
         /// Set First floor as map
@@ -51,47 +54,21 @@ namespace UniversityProgramm
             _lines = new List<Line>();
 
             var picturePath = "pack://application:,,,/Images/MainCorps/1.2.png";
-
-            Graph graph2 = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
+            _currentLevel = 2;
+            Graph graph = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
 
             AddPicture(picturePath);
 
-            var names = from i in graph2.Vertices
+            var names = from i in graph.Vertices
                         where i.Name[0] != 'A' && i.Name[0] != 'S'
                         select i.Name;
-
+            _graph = graph;
             foreach (var item in names)
             {
                 From.Items.Add(item);
                 To.Items.Add(item);
             }
-
-            var j = graph2.ToMatrix();
-
-            //string s = "";
-
-            //for (int i = 0; i < j.GetLength(0); i++)
-            //{
-            //    for (int l = 0; l < j.GetLength(0); l++)
-            //    {
-            //        s += j[i, l].ToString().Replace(',', '.') + ",";
-            //    }
-            //    s += "\n";
-            //}
-
-            DijkstrasAlgorithm dijkstras = new DijkstrasAlgorithm();
-
-            var k = dijkstras.Dijkstra(j, graph2.GetVertexPositionByName("272"), graph2.GetVertexPositionByName("273"));
-
-            for (int i = 0; i < k.Count; i++)
-            {
-                Vertex vertex = graph2.Vertices[k[i]];
-                foreach (var item2 in vertex.Neibours)
-                {
-                    DrawLine(vertex.Position, item2.First.Position);
-                }
-            }
-
+            _totalOffset = new Point(0, 0);
         }
 
         /// <summary>
@@ -113,10 +90,10 @@ namespace UniversityProgramm
         {
             Line line = new Line
             {
-                X1 = firstPoint.X,
-                X2 = secondPoint.X,
-                Y1 = firstPoint.Y,
-                Y2 = secondPoint.Y,
+                X1 = firstPoint.X + _totalOffset.X,
+                X2 = secondPoint.X + _totalOffset.X,
+                Y1 = firstPoint.Y + _totalOffset.Y,
+                Y2 = secondPoint.Y + _totalOffset.Y,
                 Stroke = Brushes.Blue,
                 StrokeThickness = 2
             };
@@ -261,6 +238,7 @@ namespace UniversityProgramm
                 if ((offset.X > 0 && toX <= 0) || (offset.X < 0 && -toX + Map.ActualWidth <= _draggedImage.ActualWidth))
                 {
                     Canvas.SetLeft(_draggedImage, Canvas.GetLeft(_draggedImage) + offset.X);
+                    _totalOffset.X += offset.X;
                     int i = 0;
                     foreach (Line item in Path.Children)
                     {
@@ -273,6 +251,7 @@ namespace UniversityProgramm
                 if ((offset.Y > 0 && toY <= 0) || (offset.Y < 0 && -toY + Map.ActualHeight <= _draggedImage.ActualHeight))
                 {
                     Canvas.SetTop(_draggedImage, Canvas.GetTop(_draggedImage) + offset.Y);
+                    _totalOffset.Y += offset.Y;
                     int i = 0;
                     foreach (Line item in Path.Children)
                     {
@@ -377,12 +356,38 @@ namespace UniversityProgramm
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             ClearAllLines();
-            if (From.SelectedItem != null && To.SelectedItem != null)
+            try
             {
-                string from = From.SelectedItem as string;
-                string to = To.SelectedItem as string;
+                if (From.SelectedItem != null && To.SelectedItem != null)
+                {
+                    string from = From.SelectedItem as string;
+                    string to = To.SelectedItem as string;
+
+                    var matrix = _graph.ToMatrix();
+
+                    DijkstrasAlgorithm dijkstras = new DijkstrasAlgorithm();
+
+                    var path = dijkstras.Dijkstra(matrix, _graph.GetVertexPositionByName(from), _graph.GetVertexPositionByName(to));
+
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        Vertex vertex = _graph.Vertices[path[i]];
+                        foreach (var item2 in vertex.Neibours)
+                        {
+                            DrawLine(vertex.Position, item2.First.Position);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -81,7 +81,7 @@
             </DockPanel>
         </Border>
         <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,-0.4,0" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="2">
-            <Button Style="{DynamicResource TriangleButtonStyle}" RenderTransform="{StaticResource Rotate090}"  Background="{StaticResource GrayBlueGardientBrush}" HorizontalAlignment="Right" Height="25" Margin="-25,0,24.4,0"/>
+            <Button Style="{DynamicResource TriangleButtonStyle}" RenderTransform="{StaticResource Rotate090}"  Background="{StaticResource GrayBlueGardientBrush}" HorizontalAlignment="Right" Height="25" Margin="-25,0,24.4,0" Click="Button_Click"/>
             <Button Style="{DynamicResource TriangleButtonStyle}" RenderTransform="{StaticResource Rotate270}"  Background="{StaticResource GrayBlueGardientBrush}" HorizontalAlignment="Right" Height="24" Margin="0,-5,0.4,0"/>
         </StackPanel>
     </Grid>
