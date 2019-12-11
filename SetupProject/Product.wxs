@@ -1,35 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define UniversityProgramm_TargetDir=$(var.UniversityProgramm.TargetDir)?>
-	<Product Id="*" Name="SetupProject" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="aff05544-92a9-4949-8681-1e55d60f130a">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define UniversityProgramm_TargetDir=$(var.UniversityProgramm.TargetDir)?>
+  <?define NetFx480MinRelease = 528040 ?>
+	<Product Id="*" Name="IMap" Language="1033" Version="1.0.0.0" Manufacturer="IMap" UpgradeCode="aff05544-92a9-4949-8681-1e55d60f130a">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <UIRef Id="WixUI_InstallDir" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
+    <Feature Id="ProductFeature" Title="FrontDesk Reception Client 2" Level="1">
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentRef Id="ApplicationStartMenu" />
+    </Feature>
+    <Icon Id="icon.ico" SourceFile="$(var.ProjectDir)favicon.png" />
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
 
-		<Feature Id="ProductFeature" Title="SetupProject" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
-			<ComponentGroupRef Id="ProgramFilesFolder_files" />
-		</Feature>
-	</Product>
+    <PropertyRef Id="NETFRAMEWORK45" />
+    <Property Id="WIX_IS_NETFRAMEWORK_480_OR_LATER_INSTALLED" Secure="yes" />
+    <SetProperty Id="WIX_IS_NETFRAMEWORK_480_OR_LATER_INSTALLED" Value="1" After="AppSearch">
+      NETFRAMEWORK45 >= "#$(var.NetFx480MinRelease)"
+    </SetProperty>
+    <Condition Message="This application requires .NET Framework 4.8 Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_480_OR_LATER_INSTALLED]]>
+    </Condition>
 
+  </Product>
+
+  <Fragment>
+    <UI Id="UserInterface">
+      <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+      <Property Id="WixUI_Mode" Value="Custom" />
+
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="9" Bold="yes" />
+      <TextStyle Id="WixUI_Font_Title"  FaceName="Tahoma" Size="9" Bold="yes" />
+
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="UserExit" />
+
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="EndDialog" Value="Return" Order="2"></Publish>
+
+    </UI>
+  </Fragment>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Component Id="ApplicationStartMenu" Guid="228335c1-291f-4d90-b7f4-ca1fdfb60fc5">
+          <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+          <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\WixSetup" Type="integer" Value="1" Name="installed" KeyPath="yes" />
+          <Shortcut Id="ApplicationStartMenuShortcut" Name="IMap" Description="The best map" Target="[INSTALLFOLDER]UniversityProgramm.exe" WorkingDirectory="INSTALLFOLDER" />
+        </Component>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop">
+        <Component Id="ApplicationShortcutDesktop" Guid="*">
+          <Shortcut Id="ApplicationDesktopShortcut" Name="IMap" Description="The best map" Target="[INSTALLFOLDER]UniversityProgramm.exe" WorkingDirectory="INSTALLFOLDER" />
+          <RemoveFolder Id="DesktopFolder" On="uninstall" />
+          <RegistryValue Root="HKCU" Key="Software/IMap" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+        </Component>
+      </Directory>
+      
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="IMap" Name="IMap">
+          <Directory Id="INSTALLFOLDER" Name="IMap">
+          </Directory>
+        </Directory>
+      </Directory>
+
+    </Directory>
+  </Fragment>
 	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="SetupProject" />
-			</Directory>
-		</Directory>
-	</Fragment>
-
-	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
-		</ComponentGroup>
-	</Fragment>
-	<Fragment>
-	  <ComponentGroup Id="ProgramFilesFolder_files" Directory="ProgramFilesFolder">
+	  <ComponentGroup Id="ProgramFilesFolder_files" Directory="INSTALLFOLDER">
 	    <Component Id="UniversityProgramm.exe" Guid="33dc8d38-5994-414f-9c73-d11df6945aed">
 	      <File Id="UniversityProgramm.exe" Name="UniversityProgramm.exe" Source="$(var.UniversityProgramm_TargetDir)UniversityProgramm.exe" />
 	    </Component>
