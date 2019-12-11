@@ -32,6 +32,17 @@ namespace UniversityProgramm
             get => CurrentDataContext.MapWidth; 
             set => CurrentDataContext.MapWidth = value; 
         }
+        private int _currentLevel;
+        public int CurrentLevel { 
+            get => _currentLevel;
+            set 
+            {
+                if (value >= 0 && value <= 3)
+                {
+                    _currentLevel = value;
+                }
+            }
+        }
 
         private int _delta = 120;
         private float _persantage = 0.1f;
@@ -41,9 +52,9 @@ namespace UniversityProgramm
         private double _normalWidth = 1280;
         private Image _map;
         private List<Line> _lines;
-        private int _currentLevel;
         private Graph _graph;
         private Point _totalOffset;
+        private string _picturePath = $"pack://application:,,,/Images/MainCorps/1.~.png";
 
         /// <summary>
         /// Set First floor as map
@@ -53,8 +64,9 @@ namespace UniversityProgramm
             InitializeComponent();
             _lines = new List<Line>();
 
-            var picturePath = "pack://application:,,,/Images/MainCorps/1.2.png";
             _currentLevel = 2;
+
+            string picturePath = _picturePath.Replace('~', CurrentLevel.ToString()[0]);
             Graph graph = GraphBuilder.BuildGraphFromVersicesFile("Resourses/Path1.2.txt");
 
             AddPicture(picturePath);
@@ -86,7 +98,7 @@ namespace UniversityProgramm
         /// </summary>
         /// <param name="firstPoint"></param>
         /// <param name="secondPoint"></param>
-        public void DrawLine(Point firstPoint, Point secondPoint)
+        public void DrawLine(Point firstPoint, Point secondPoint, string name)
         {
             Line line = new Line
             {
@@ -95,7 +107,9 @@ namespace UniversityProgramm
                 Y1 = firstPoint.Y + _totalOffset.Y,
                 Y2 = secondPoint.Y + _totalOffset.Y,
                 Stroke = Brushes.Blue,
-                StrokeThickness = 2
+                StrokeThickness = 2,
+                Name = name,
+                
             };
             _lines.Add(line);
             Path.Children.Add(line);
@@ -146,8 +160,47 @@ namespace UniversityProgramm
             Canvas.SetLeft(_draggedImage, 0);
             Canvas.SetTop(_draggedImage, 0);
 
+            foreach (Image item in canvas.Children)
+            {
+                if (item != null && item.Name == "MapPicture")
+                {
+                    canvas.Children.Remove(item);
+                    break;
+                }
+            }
+
+            ShowCurrentPath();
+
             canvas.Children.Add(_draggedImage);
             SetBindings(_draggedImage);
+
+            Canvas.SetLeft(_draggedImage, Canvas.GetLeft(_draggedImage) + _totalOffset.X);
+            Canvas.SetTop(_draggedImage, Canvas.GetTop(_draggedImage) + _totalOffset.Y);
+        }
+
+        private void ShowCurrentPath()
+        {
+            foreach (Line line in Path.Children)
+            {
+                string[] toSplit = new string[]
+                {
+                    "ToSplit"
+                };
+
+                List<string> names = line.Name.Split(toSplit, StringSplitOptions.None).ToList();
+                bool condition =
+                    names.Contains("STAIRS") ||
+                    names.Select(x => x[0]).Contains(CurrentLevel.ToString()[0]) ||
+                    (names.Select(x => x[0]).Contains('A') && names.Select(x => x[1]).Contains(CurrentLevel.ToString()[0]));
+                if (condition)
+                {
+                    line.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    line.Visibility = Visibility.Hidden;
+                }
+            }
         }
 
         /// <summary>
@@ -213,7 +266,6 @@ namespace UniversityProgramm
 
                 Mouse.OverrideCursor = Cursors.Arrow;
                 canvas.ReleaseMouseCapture();
-                //Panel.SetZIndex(_draggedImage, 0);
             }
         }
 
@@ -374,20 +426,30 @@ namespace UniversityProgramm
                         Vertex vertex = _graph.Vertices[path[i]];
                         foreach (var item2 in vertex.Neibours)
                         {
-                            DrawLine(vertex.Position, item2.First.Position);
+                            DrawLine(vertex.Position, item2.First.Position, vertex.Name + "ToSplit" + item2.First.Name);
                         }
                     }
                 }
+                ShowCurrentPath();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Up(object sender, RoutedEventArgs e)
         {
+            CurrentLevel++;
+            string picturePath = _picturePath.Replace('~', CurrentLevel.ToString()[0]);
+            AddPicture(picturePath);
+        }
 
+        private void Button_Down(object sender, RoutedEventArgs e)
+        {
+            CurrentLevel--;
+            string picturePath = _picturePath.Replace('~', CurrentLevel.ToString()[0]);
+            AddPicture(picturePath);
         }
     }
 }
