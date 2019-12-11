@@ -54,7 +54,14 @@ namespace UniversityProgramm.Helpers
                     {
                         double length = Vertices[i].GetVertexLengthFromName(namesPosition[j]);
 
-                        matrix[i, j] = length;
+                        if (matrix[i, j] < 1)
+                        {
+                            matrix[i, j] = length;
+                        }
+                        if (matrix[j, i] < 1)
+                        {
+                            matrix[j, i] = length;
+                        }
                     }
                 }
             }
@@ -101,6 +108,46 @@ namespace UniversityProgramm.Helpers
                 Vertices = vertices;
                 return false;
             }
+        }
+
+        public double[,] ToMatrixSecond()
+        {
+            int n = Vertices.Count;
+            double[,] matrix = new double[n, n];
+
+            for(int i = 0; i < n; i++)
+            {
+                Vertex currentVertex = Vertices[i];
+                for(int j = 0; j < currentVertex.Neibours.Count; j++)
+                {
+                    int index = GetVertexPositionByName(currentVertex.Neibours[j].First.Name);
+                    matrix[i, index] = currentVertex.Neibours[j].Second;
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                Vertex currentVertex = Vertices[i];
+                for (int j = 0; j < currentVertex.Neibours.Count; j++)
+                {
+                    int index = GetVertexPositionByName(currentVertex.Neibours[j].First.Name);
+                    matrix[index, i] = currentVertex.Neibours[j].Second;
+                }
+            }
+
+            return matrix;
+        }
+
+        public int GetVertexPositionByName(string name)
+        {
+            for(int i = 0; i < Vertices.Count; i++)
+            {
+                if (Vertices[i].Name == name)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

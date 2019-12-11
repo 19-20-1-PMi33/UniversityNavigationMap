@@ -228,6 +228,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Graphs.cs" />
     <Compile Include="View\ApplicationModel.cs" />
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>

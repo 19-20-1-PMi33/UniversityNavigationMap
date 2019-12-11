@@ -56,14 +56,6 @@ namespace UniversityProgramm
 
             AddPicture(picturePath);
 
-            foreach (var item in graph2.Vertices)
-            {
-                foreach (var item2 in item.Neibours)
-                {
-                    DrawLine(item.Position, item2.First.Position);
-                }
-            }
-
             var names = from i in graph2.Vertices
                         where i.Name[0] != 'A' && i.Name[0] != 'S'
                         select i.Name;
@@ -73,6 +65,33 @@ namespace UniversityProgramm
                 From.Items.Add(item);
                 To.Items.Add(item);
             }
+
+            var j = graph2.ToMatrix();
+
+            //string s = "";
+
+            //for (int i = 0; i < j.GetLength(0); i++)
+            //{
+            //    for (int l = 0; l < j.GetLength(0); l++)
+            //    {
+            //        s += j[i, l].ToString().Replace(',', '.') + ",";
+            //    }
+            //    s += "\n";
+            //}
+
+            DijkstrasAlgorithm dijkstras = new DijkstrasAlgorithm();
+
+            var k = dijkstras.Dijkstra(j, graph2.GetVertexPositionByName("272"), graph2.GetVertexPositionByName("273"));
+
+            for (int i = 0; i < k.Count; i++)
+            {
+                Vertex vertex = graph2.Vertices[k[i]];
+                foreach (var item2 in vertex.Neibours)
+                {
+                    DrawLine(vertex.Position, item2.First.Position);
+                }
+            }
+
         }
 
         /// <summary>
@@ -357,7 +376,13 @@ namespace UniversityProgramm
         /// <param name="e"></param>
         private void Search_Click(object sender, RoutedEventArgs e)
         {
+            ClearAllLines();
+            if (From.SelectedItem != null && To.SelectedItem != null)
+            {
+                string from = From.SelectedItem as string;
+                string to = To.SelectedItem as string;
 
+            }
         }
     }
 }
